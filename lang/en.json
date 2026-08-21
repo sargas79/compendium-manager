@@ -1,0 +1,135 @@
+{
+  "COMPENDIUM_MANAGER": {
+    "Packs": {
+      "MirrorLabel": "{type} (Shared Library)"
+    },
+    "App": {
+      "Title": "Compendium Manager",
+      "Button": "Compendium Manager",
+      "World": "World",
+      "LastSync": "Last sync",
+      "Pending": "Pending edits",
+      "AutoSync": "Auto sync",
+      "OnAfter": "On, after",
+      "Off": "Off",
+      "Never": "Never",
+      "Type": "Type",
+      "Shared": "Shared",
+      "Mirror": "Mirror",
+      "Dirty": "Pending",
+      "Managed": "Managed",
+      "ToggleType": "Toggle whether this type is managed",
+      "SharedMissing": "shared pack missing",
+      "MirrorMissing": "mirror pack missing",
+      "PendingDeletions": "Pending deletions",
+      "DeletionsHint": "Deleting from a mirror pack does not remove the shared copy until you confirm it here. Keeping a document restores it on the next sync.",
+      "Keep": "Keep",
+      "ApplyDeletions": "Delete from shared library",
+      "SyncNow": "Sync now",
+      "PullNow": "Pull from shared",
+      "OpenMerge": "Merge a compendium",
+      "Ready": "Compendium Manager is active."
+    },
+    "Sync": {
+      "PullDone": "Pulled {created} new and {updated} updated document(s) from the shared library.",
+      "PushDone": "Pushed {created} new and {updated} updated document(s) to the shared library.",
+      "SyncDone": "Sync complete: {pushed} pushed, {pulled} pulled.",
+      "PullFailed": "Could not finish pulling from the shared library. See the console for details.",
+      "PushFailed": "Could not finish pushing to the shared library. See the console for details.",
+      "ConflictsResolved": "{count} document(s) changed in both places. The shared version was kept and your local version was copied into the _conflicts folder.",
+      "ConflictCopyName": "{name} (local copy from {world}, {date})"
+    },
+    "Deletions": {
+      "ConfirmTitle": "Delete from the shared library?",
+      "ConfirmBody": "{count} document(s) will be permanently removed from the shared library, in this world and the other one.",
+      "More": "and {count} more.",
+      "Applied": "Removed {count} document(s) from the shared library."
+    },
+    "Merge": {
+      "Title": "Merge a compendium into the shared library",
+      "Intro": "Choose an existing compendium to bring into the shared library. Nothing is written until you review the report and confirm, and nothing is ever deleted from either side.",
+      "Source": "Compendium to merge",
+      "ChooseSource": "Choose a compendium…",
+      "Analyse": "Analyse (dry run)",
+      "NoAdoptable": "No compendiums are available to merge in this world.",
+      "ReportTitle": "Dry run report",
+      "Name": "Document",
+      "Status_": "Status",
+      "MatchedBy": "Matched by",
+      "Action": "Action",
+      "BulkLabel": "Set all:",
+      "Apply": "Apply",
+      "Reset": "Clear report",
+      "NoSource": "Choose a compendium to merge first.",
+      "NoTarget": "There is no shared pack for that document type.",
+      "AnalyseFailed": "The dry run failed. See the console for details.",
+      "NothingToDo": "Every entry is set to skip, so there is nothing to write.",
+      "ConfirmTitle": "Apply the merge?",
+      "ConfirmBody": "{count} document(s) will be written from {source} into {target}.",
+      "ConfirmNoDelete": "Nothing will be deleted. You can run this again at any time.",
+      "Applied": "Merged {created} new and {updated} updated document(s).",
+      "Status": {
+        "new": "New",
+        "identical": "Identical",
+        "conflict": "Conflict",
+        "duplicate": "Possible duplicate"
+      },
+      "Via": {
+        "id": "same id",
+        "source": "same original compendium entry",
+        "name": "same name and type"
+      },
+      "Resolution": {
+        "skip": "Skip",
+        "local": "Use this version",
+        "both": "Keep both"
+      },
+      "Bulk": {
+        "SkipDuplicates": "Skip duplicates",
+        "KeepBoth": "Keep both copies",
+        "TakeLocal": "Use local for conflicts"
+      }
+    },
+    "Errors": {
+      "WrongSystem": "Compendium Manager only supports the {system} system and is inactive in this world.",
+      "SystemMismatch": "The shared library was created for the {recorded} system but this world runs {current}. Syncing is disabled to protect your data.",
+      "VersionDrift": "The shared library was last used with system version {recorded}; this world runs {current}. Syncing continues, but keeping both worlds on the same version is recommended.",
+      "MissingPacks": "These shared packs are missing from the module install: {packs}.",
+      "StartupFailed": "Compendium Manager could not start. See the console for details."
+    },
+    "Settings": {
+      "AutoSync": {
+        "Name": "Sync automatically",
+        "Hint": "Push edits made in the mirror packs to the shared library shortly after you make them."
+      },
+      "SyncDebounce": {
+        "Name": "Auto sync delay (seconds)",
+        "Hint": "How long to wait after your last edit before pushing to the shared library."
+      },
+      "SyncPackOwnership": {
+        "Name": "Carry pack ownership between worlds",
+        "Hint": "Pack ownership is a per-world setting. With this on, the ownership you configure in one world is applied to the managed packs in the other."
+      },
+      "ConfirmDeletions": {
+        "Name": "Confirm deletions",
+        "Hint": "Ask before removing anything from the shared library. Leaving this on is strongly recommended."
+      },
+      "DuplicateMatching": {
+        "Name": "Duplicate detection",
+        "Hint": "How hard the merge wizard looks for content that already exists in the shared library.",
+        "Id": "Same id only",
+        "Source": "Same id or original compendium entry",
+        "Name_": "Same id, original entry, or name and type"
+      },
+      "Debug": {
+        "Name": "Debug logging",
+        "Hint": "Write verbose [compendium-manager] messages to the browser console."
+      },
+      "Manager": {
+        "Name": "Compendium Manager",
+        "Label": "Open Manager",
+        "Hint": "Pack status, sync controls, pending deletions, and the merge wizard."
+      }
+    }
+  }
+}

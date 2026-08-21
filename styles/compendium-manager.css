@@ -1,0 +1,141 @@
+/* Compendium Manager
+   Deliberately minimal: the module inherits whatever theme the world uses, so only layout
+   and a few state colours are defined here. */
+
+.compendium-manager .cm-summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 0.5rem 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.compendium-manager .cm-summary div {
+  display: flex;
+  flex-direction: column;
+  font-size: var(--font-size-13, 0.85rem);
+}
+
+.compendium-manager .cm-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 0.75rem;
+}
+
+.compendium-manager .cm-table th,
+.compendium-manager .cm-table td {
+  padding: 0.25rem 0.4rem;
+  text-align: left;
+  border-bottom: 1px solid var(--color-border-light-tertiary, rgba(0, 0, 0, 0.1));
+}
+
+.compendium-manager .cm-table .cm-num {
+  text-align: right;
+  width: 5rem;
+}
+
+.compendium-manager .cm-disabled {
+  opacity: 0.5;
+}
+
+.compendium-manager .cm-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  width: auto;
+}
+
+.compendium-manager .cm-warn {
+  font-weight: bold;
+}
+
+.compendium-manager .cm-error {
+  color: var(--color-level-error, #a33);
+  font-size: var(--font-size-12, 0.8rem);
+  margin-left: 0.4rem;
+}
+
+.compendium-manager .cm-muted {
+  opacity: 0.6;
+}
+
+.compendium-manager .cm-actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.compendium-manager .cm-deletions ul {
+  list-style: none;
+  margin: 0 0 0.5rem;
+  padding: 0;
+  max-height: 12rem;
+  overflow-y: auto;
+}
+
+.compendium-manager .cm-deletions li {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.15rem 0;
+}
+
+.compendium-manager .cm-deletion-name {
+  flex: 1;
+}
+
+.compendium-manager .cm-deletion-type {
+  opacity: 0.6;
+  font-size: var(--font-size-12, 0.8rem);
+}
+
+.compendium-manager .cm-danger {
+  color: var(--color-level-error, #a33);
+}
+
+.compendium-manager .cm-merge-source {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.compendium-manager .cm-merge-source select {
+  flex: 1;
+}
+
+.compendium-manager .cm-counts {
+  display: flex;
+  gap: 1rem;
+  list-style: none;
+  margin: 0 0 0.5rem;
+  padding: 0;
+  flex-wrap: wrap;
+}
+
+.compendium-manager .cm-bulk {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.5rem;
+}
+
+.compendium-manager .cm-entries {
+  display: block;
+  max-height: 22rem;
+  overflow-y: auto;
+}
+
+.compendium-manager .cm-target {
+  opacity: 0.7;
+  font-size: var(--font-size-12, 0.8rem);
+}
+
+.compendium-manager .cm-status-conflict td:nth-child(2) {
+  font-weight: bold;
+}
+
+.compendium-manager .cm-status-identical {
+  opacity: 0.6;
+}

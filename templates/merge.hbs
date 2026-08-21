@@ -1,0 +1,96 @@
+<section class="cm-merge standard-form">
+
+  <p class="notes">{{localize "COMPENDIUM_MANAGER.Merge.Intro"}}</p>
+
+  <div class="cm-merge-source">
+    <label for="cm-merge-select">{{localize "COMPENDIUM_MANAGER.Merge.Source"}}</label>
+    <select id="cm-merge-select" data-source-select {{#unless hasSources}}disabled{{/unless}}>
+      <option value="">{{localize "COMPENDIUM_MANAGER.Merge.ChooseSource"}}</option>
+      {{#each sources}}
+      <option value="{{this.collection}}" {{#if this.selected}}selected{{/if}}>{{this.label}}</option>
+      {{/each}}
+    </select>
+    <button type="button" data-action="analyse">
+      <i class="fa-solid fa-magnifying-glass"></i> {{localize "COMPENDIUM_MANAGER.Merge.Analyse"}}
+    </button>
+  </div>
+
+  {{#unless hasSources}}
+  <p class="cm-error">{{localize "COMPENDIUM_MANAGER.Merge.NoAdoptable"}}</p>
+  {{/unless}}
+
+  {{#if hasReport}}
+  <section class="cm-report">
+    <h3>{{localize "COMPENDIUM_MANAGER.Merge.ReportTitle"}}</h3>
+    <ul class="cm-counts">
+      <li><strong>{{counts.new}}</strong> {{localize "COMPENDIUM_MANAGER.Merge.Status.new"}}</li>
+      <li><strong>{{counts.identical}}</strong> {{localize "COMPENDIUM_MANAGER.Merge.Status.identical"}}</li>
+      <li><strong>{{counts.conflict}}</strong> {{localize "COMPENDIUM_MANAGER.Merge.Status.conflict"}}</li>
+      <li><strong>{{counts.duplicate}}</strong> {{localize "COMPENDIUM_MANAGER.Merge.Status.duplicate"}}</li>
+    </ul>
+
+    <div class="cm-bulk">
+      <span>{{localize "COMPENDIUM_MANAGER.Merge.BulkLabel"}}</span>
+      <button type="button" data-action="setAll" data-status="duplicate" data-value="skip">
+        {{localize "COMPENDIUM_MANAGER.Merge.Bulk.SkipDuplicates"}}
+      </button>
+      <button type="button" data-action="setAll" data-status="duplicate" data-value="both">
+        {{localize "COMPENDIUM_MANAGER.Merge.Bulk.KeepBoth"}}
+      </button>
+      <button type="button" data-action="setAll" data-status="conflict" data-value="local">
+        {{localize "COMPENDIUM_MANAGER.Merge.Bulk.TakeLocal"}}
+      </button>
+    </div>
+
+    <table class="cm-table cm-entries">
+      <thead>
+        <tr>
+          <th>{{localize "COMPENDIUM_MANAGER.Merge.Name"}}</th>
+          <th>{{localize "COMPENDIUM_MANAGER.Merge.Status_"}}</th>
+          <th>{{localize "COMPENDIUM_MANAGER.Merge.MatchedBy"}}</th>
+          <th>{{localize "COMPENDIUM_MANAGER.Merge.Action"}}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each entries}}
+        <tr class="cm-status-{{this.status}}">
+          <td>
+            {{this.name}}
+            {{#if this.targetName}}<span class="cm-target">&rarr; {{this.targetName}}</span>{{/if}}
+          </td>
+          <td>{{this.statusLabel}}</td>
+          <td>{{this.viaLabel}}</td>
+          <td>
+            {{#if (cmEq this.status "identical")}}
+            <span class="cm-muted">{{localize "COMPENDIUM_MANAGER.Merge.Resolution.skip"}}</span>
+            {{else}}
+            <select data-resolution data-entry-id="{{this.id}}">
+              <option value="skip" {{#if (cmEq this.resolution "skip")}}selected{{/if}}>
+                {{localize "COMPENDIUM_MANAGER.Merge.Resolution.skip"}}
+              </option>
+              <option value="local" {{#if (cmEq this.resolution "local")}}selected{{/if}}>
+                {{localize "COMPENDIUM_MANAGER.Merge.Resolution.local"}}
+              </option>
+              <option value="both" {{#if (cmEq this.resolution "both")}}selected{{/if}}>
+                {{localize "COMPENDIUM_MANAGER.Merge.Resolution.both"}}
+              </option>
+            </select>
+            {{/if}}
+          </td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </section>
+  {{/if}}
+
+  <footer class="cm-actions">
+    <button type="button" data-action="apply" {{#unless hasReport}}disabled{{/unless}}>
+      <i class="fa-solid fa-check"></i> {{localize "COMPENDIUM_MANAGER.Merge.Apply"}}
+    </button>
+    <button type="button" data-action="reset" {{#unless hasReport}}disabled{{/unless}}>
+      <i class="fa-solid fa-xmark"></i> {{localize "COMPENDIUM_MANAGER.Merge.Reset"}}
+    </button>
+  </footer>
+
+</section>

@@ -1,0 +1,96 @@
+name: Release
+
+# Publishes a Foundry-installable release when a version tag is pushed.
+#
+#   git tag v0.1.0 && git push origin v0.1.0
+#
+# The tag is the single source of truth for the version: module.json is rewritten from it, so a
+# forgotten version bump cannot produce a mislabelled release.
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out
+        uses: actions/checkout@v4
+
+      - name: Derive version from the tag
+        id: version
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          echo "version=${VERSION}" >> "$GITHUB_OUTPUT"
+          echo "Releasing version ${VERSION}"
+
+      - name: Write version and download URL into module.json
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+          REPO_URL: https://github.com/${{ github.repository }}
+        run: |
+          jq --arg version "$VERSION" \
+             --arg download "${REPO_URL}/releases/download/v${VERSION}/module.zip" \
+             --arg manifest "${REPO_URL}/releases/latest/download/module.json" \
+             '.version = $version | .download = $download | .manifest = $manifest' \
+             module.json > module.json.tmp
+          mv module.json.tmp module.json
+          cat module.json
+
+      - name: Verify the manifest
+        run: |
+          test "$(jq -r '.id' module.json)" = "compendium-manager"
+          test -f scripts/module.js
+          test -f lang/en.json
+          test -f styles/compendium-manager.css
+          for pack in $(jq -r '.packs[].path' module.json); do
+            test -d "$pack" || { echo "Missing pack directory: $pack"; exit 1; }
+          done
+          echo "Manifest looks sane."
+
+      - name: Syntax-check the scripts
+        run: |
+          mkdir -p /tmp/esm
+          for script in $(find scripts -name '*.js'); do
+            cp "$script" "/tmp/esm/$(echo "$script" | tr '/' '_').mjs"
+          done
+          for script in /tmp/esm/*.mjs; do
+            node --check "$script"
+          done
+          jq empty lang/en.json
+          echo "Scripts parse and localisation is valid JSON."
+
+      - name: Build module.zip
+        run: |
+          zip -r module.zip \
+            module.json \
+            README.md \
+            CHANGELOG.md \
+            LICENSE \
+            scripts \
+            styles \
+            templates \
+            lang \
+            packs \
+            -x '.git/*' -x '.github/*' -x '*/.DS_Store'
+          unzip -l module.zip
+
+      - name: Publish the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          gh release create "v${VERSION}" \
+            module.json module.zip \
+            --title "v${VERSION}" \
+            --notes "Install or update in Foundry with this manifest URL:
+          https://github.com/${{ github.repository }}/releases/latest/download/module.json
+
+          See CHANGELOG.md for what changed." \
+            --verify-tag
