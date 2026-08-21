@@ -85,12 +85,34 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           VERSION: ${{ steps.version.outputs.version }}
+          REPO: ${{ github.repository }}
         run: |
-          gh release create "v${VERSION}" \
-            module.json module.zip \
-            --title "v${VERSION}" \
-            --notes "Install or update in Foundry with this manifest URL:
-          https://github.com/${{ github.repository }}/releases/latest/download/module.json
+          NOTES="Install or update in Foundry with this manifest URL:
+          https://github.com/${REPO}/releases/latest/download/module.json
 
-          See CHANGELOG.md for what changed." \
-            --verify-tag
+          See CHANGELOG.md for what changed."
+
+          # A release may already exist for the tag (created by hand, or by an earlier run that
+          # failed after this point). Creating it again would abort before the assets are
+          # uploaded, leaving a release with no manifest, so update it in place instead.
+          if gh release view "v${VERSION}" >/dev/null 2>&1; then
+            echo "Release v${VERSION} already exists - updating it."
+            gh release edit "v${VERSION}" --title "v${VERSION}" --notes "$NOTES" --draft=false
+            gh release upload "v${VERSION}" module.json module.zip --clobber
+          else
+            gh release create "v${VERSION}" \
+              module.json module.zip \
+              --title "v${VERSION}" \
+              --notes "$NOTES" \
+              --verify-tag
+          fi
+
+      - name: Verify the release carries both assets
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          ASSETS="$(gh release view "v${VERSION}" --json assets --jq '.assets[].name')"
+          echo "$ASSETS"
+          echo "$ASSETS" | grep -qx 'module.json' || { echo "module.json missing from the release"; exit 1; }
+          echo "$ASSETS" | grep -qx 'module.zip'  || { echo "module.zip missing from the release"; exit 1; }
