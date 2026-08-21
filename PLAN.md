@@ -7,7 +7,9 @@ by mirroring world-local compendiums into module-owned packs on disk.
 - **Title:** Compendium Manager
 - **Author:** Diego Vescovini
 
-Status: **plan only — no implementation yet.**
+Status: **implemented in v0.1.0.** This document is the design record the implementation follows;
+where the two disagree, the code is the truth. Not yet run inside Foundry — see the README
+*Status* section and §10 for what remains unverified.
 
 Target worlds (from setup screenshots):
 

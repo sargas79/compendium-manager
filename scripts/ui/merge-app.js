@@ -121,12 +121,15 @@ function defineApplication() {
         return;
       }
 
+      // Pack titles are author-supplied, and game.i18n.format does not escape its
+      // substitutions, so escape before building the dialog markup.
+      const escape = foundry.utils.escapeHTML;
       const approved = await confirm({
         title: t("Merge.ConfirmTitle"),
         content: `<p>${t("Merge.ConfirmBody", {
           count: willWrite,
-          source: app.#report.sourceLabel,
-          target: app.#report.target
+          source: escape(app.#report.sourceLabel ?? ""),
+          target: escape(app.#report.target ?? "")
         })}</p><p>${t("Merge.ConfirmNoDelete")}</p>`
       });
       if (!approved) return;
